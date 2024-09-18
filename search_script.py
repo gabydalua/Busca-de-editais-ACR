@@ -6,10 +6,10 @@ API_KEY = 'SUA_CHAVE_API'  # Substitua com sua chave de API
 CX = 'SEU_CX'  # Substitua com seu ID do mecanismo de pesquisa personalizado
 
 queries = [
-    'editais para projetos sociais em aberto',
-    'editais para projetos de inovação em aberto',
-    'editais projetos para leis de incentivo',
-    'editais de licitação para projetos'
+    'Editais para projetos sociais em aberto',
+    'Editais para projetos de inovação em aberto',
+    'Editais projetos para leis de incentivo',
+    'Editais de licitação para projetos'
 ]
 
 num_results = 10
