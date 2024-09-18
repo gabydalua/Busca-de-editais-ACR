@@ -3,42 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados da Busca</title>
+    <title>Resultado da Busca</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #1e2a38;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        header img {
+            height: 60px; /* Ajuste o tamanho conforme necessário */
+            vertical-align: middle;
+        }
+        header h1 {
+            margin: 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .update-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .update-button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+            background: #fafafa;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .result-item:hover {
+            background-color: #f1f1f1;
+        }
+        .result-item h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        .result-item p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .result-item a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        .result-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Resultados da Busca</h1>
-    <button onclick="updateResults()">Atualize-se</button>
-    <div id="results"></div>
-
-    <script>
-        async function updateResults() {
-            try {
-                const response = await fetch('arquivosjson/search_results.json');
-                if (!response.ok) throw new Error('Network response was not ok.');
-                const data = await response.json();
-
-                let html = '<ul>';
-                for (const [query, items] of Object.entries(data)) {
-                    html += `<li><h2>${query}</h2><ul>`;
-                    items.forEach(item => {
-                        html += `
-                            <li>
-                                <a href="${item.link}" target="_blank">${item.title}</a>
-                                <p>${item.snippet}</p>
-                            </li>`;
-                    });
-                    html += '</ul></li>';
-                }
-                html += '</ul>';
-                document.getElementById('results').innerHTML = html;
-            } catch (error) {
-                console.error('Error fetching the JSON:', error);
-                document.getElementById('results').innerHTML = 'Erro ao carregar os dados.';
-            }
-        }
-
-        // Atualiza os resultados quando a página é carregada
-        updateResults();
-    </script>
+    <header>
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.se.senai.br%2F&psig=AOvVaw3Lqaj36kjkkT1s2OmRLsDT&ust=1726775587628000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIj-l76izYgDFQAAAAAdAAAAABAJ" alt="Logo do SENAI">
+        <h1>Resultados da Busca de Editais</h1>
+    </header>
+    <div class="container">
+        <div class="content">
+            <button class="update-button" onclick="location.reload();">Atualize-se</button>
+            <div class="results">
+                <!-- Adicione aqui o código para exibir os resultados da busca -->
+                <div class="result-item">
+                    <h2>Título do Edital</h2>
+                    <p>Descrição breve do edital...</p>
+                    <a href="URL_DO_EDITAL" target="_blank">Leia mais</a>
+                </div>
+                <!-- Adicione mais itens de resultado conforme necessário -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>
