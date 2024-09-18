@@ -91,22 +91,47 @@
 </head>
 <body>
     <header>
-        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.se.senai.br%2F&psig=AOvVaw3Lqaj36kjkkT1s2OmRLsDT&ust=1726775587628000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIj-l76izYgDFQAAAAAdAAAAABAJ" alt="Logo do SENAI">
+        <img src="https://cms.frm.org.br/s3/files/styles/converte_png/public/media/logo/2024-09/senai_220x200.png?itok=oGqW69Hs" alt="Logo do SENAI">
         <h1>Resultados da Busca de Editais</h1>
     </header>
     <div class="container">
         <div class="content">
-            <button class="update-button" onclick="location.reload();">Atualize-se</button>
-            <div class="results">
-                <!-- Adicione aqui o código para exibir os resultados da busca -->
-                <div class="result-item">
-                    <h2>Título do Edital</h2>
-                    <p>Descrição breve do edital...</p>
-                    <a href="URL_DO_EDITAL" target="_blank">Leia mais</a>
-                </div>
-                <!-- Adicione mais itens de resultado conforme necessário -->
+            <button class="update-button" onclick="fetchResults()">Atualize-se</button>
+            <div class="results" id="results">
+                <!-- Resultados serão exibidos aqui -->
             </div>
         </div>
     </div>
+    <script>
+        async function fetchResults() {
+            try {
+                const response = await fetch('https://github.com/gabydalua/Busca-de-editais-ACR/blob/main/arquivosjson/search_results.json');
+                const data = await response.json();
+                
+                const resultsContainer = document.getElementById('results');
+                resultsContainer.innerHTML = ''; // Limpar resultados anteriores
+
+                for (const [query, results] of Object.entries(data)) {
+                    results.forEach(item => {
+                        const resultElement = document.createElement('div');
+                        resultElement.className = 'result-item';
+                        
+                        resultElement.innerHTML = `
+                            <h2>${item.title}</h2>
+                            <p>${item.snippet}</p>
+                            <a href="${item.link}" target="_blank">Leia mais</a>
+                        `;
+                        
+                        resultsContainer.appendChild(resultElement);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar resultados:', error);
+            }
+        }
+
+        // Carregar resultados ao carregar a página
+        document.addEventListener('DOMContentLoaded', fetchResults);
+    </script>
 </body>
 </html>
