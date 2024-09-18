@@ -1,90 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados da Busca de Editais</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Resultados da Busca</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Resultados da Busca de Editais</h1>
-        <button onclick="updateResults()">Atualizar</button>
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th>Título</th>
-                    <th>Link</th>
-                    <th>Descrição</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Resultados serão inseridos aqui -->
-            </tbody>
-        </table>
-    </div>
+    <h1>Resultados da Busca</h1>
+    <button onclick="updateResults()">Atualize-se</button>
+    <div id="results"></div>
 
     <script>
-        async function fetchResults() {
-            const response = await fetch('search_results.json');
-            const data = await response.json();
-            const tableBody = document.querySelector('#resultsTable tbody');
+        async function updateResults() {
+            try {
+                const response = await fetch('arquivosjson/search_results.json');
+                if (!response.ok) throw new Error('Network response was not ok.');
+                const data = await response.json();
 
-            tableBody.innerHTML = ''; // Limpa a tabela antes de inserir novos resultados
-
-            for (const [query, items] of Object.entries(data)) {
-                items.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.title}</td>
-                        <td><a href="${item.link}" target="_blank">${item.displayLink}</a></td>
-                        <td>${item.snippet}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+                let html = '<ul>';
+                for (const [query, items] of Object.entries(data)) {
+                    html += `<li><h2>${query}</h2><ul>`;
+                    items.forEach(item => {
+                        html += `
+                            <li>
+                                <a href="${item.link}" target="_blank">${item.title}</a>
+                                <p>${item.snippet}</p>
+                            </li>`;
+                    });
+                    html += '</ul></li>';
+                }
+                html += '</ul>';
+                document.getElementById('results').innerHTML = html;
+            } catch (error) {
+                console.error('Error fetching the JSON:', error);
+                document.getElementById('results').innerHTML = 'Erro ao carregar os dados.';
             }
         }
 
-        function updateResults() {
-            fetchResults();
-        }
-
-        // Carrega os resultados automaticamente ao carregar a página
-        window.onload = fetchResults;
+        // Atualiza os resultados quando a página é carregada
+        updateResults();
     </script>
 </body>
 </html>
